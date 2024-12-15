@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{
 		.github\workflows\test.yml = .github\workflows\test.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.DbmlGenerator35", "PluginDTE.DbmlGenerator\Plugin.DbmlGenerator35.csproj", "{42FA2CB1-8F80-4D32-9028-D1996F61D1FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.DbmlGenerator35", "Plugin.DbmlGenerator\Plugin.DbmlGenerator35.csproj", "{42FA2CB1-8F80-4D32-9028-D1996F61D1FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
