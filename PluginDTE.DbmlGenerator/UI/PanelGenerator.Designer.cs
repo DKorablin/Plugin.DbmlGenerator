@@ -1,4 +1,4 @@
-namespace PluginDTE.DbmlGenerator
+namespace Plugin.DbmlGenerator
 {
 	partial class PanelGenerator
 	{
@@ -37,7 +37,7 @@ namespace PluginDTE.DbmlGenerator
 			this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
 			this.splitMain = new System.Windows.Forms.SplitContainer();
 			this.txtSql = new System.Windows.Forms.TextBox();
-			this.ctrlGridResult = new PluginDTE.DbmlGenerator.TableViewCtrl();
+			this.ctrlGridResult = new DbmlGenerator.TableViewCtrl();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.ddlConnection = new System.Windows.Forms.ToolStripComboBox();
 			this.tsbnCommand = new System.Windows.Forms.ToolStripSplitButton();
@@ -61,7 +61,7 @@ namespace PluginDTE.DbmlGenerator
 			tsmiDbml.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
 			tsmiDbml.Name = "tsmiDbml";
 			tsmiDbml.Size = new System.Drawing.Size(152, 22);
-			tsmiDbml.Tag = PluginDTE.DbmlGenerator.DbCommandProcessingArgs.ActionType.Dbml;
+			tsmiDbml.Tag = DbmlGenerator.DbCommandProcessingArgs.ActionType.Dbml;
 			tsmiDbml.Text = "Dbml";
 			tsmiDbml.ToolTipText = "Create DBML formatted result";
 			// 
@@ -69,7 +69,7 @@ namespace PluginDTE.DbmlGenerator
 			// 
 			tsmiGrid.Name = "tsmiGrid";
 			tsmiGrid.Size = new System.Drawing.Size(152, 22);
-			tsmiGrid.Tag = PluginDTE.DbmlGenerator.DbCommandProcessingArgs.ActionType.Grid;
+			tsmiGrid.Tag = DbmlGenerator.DbCommandProcessingArgs.ActionType.Grid;
 			tsmiGrid.Text = "Grid";
 			tsmiGrid.ToolTipText = "Execute stored procedure to view results";
 			// 
@@ -77,7 +77,7 @@ namespace PluginDTE.DbmlGenerator
 			// 
 			tsmiXml.Name = "tsmiXml";
 			tsmiXml.Size = new System.Drawing.Size(152, 22);
-			tsmiXml.Tag = PluginDTE.DbmlGenerator.DbCommandProcessingArgs.ActionType.Xml;
+			tsmiXml.Tag = DbmlGenerator.DbCommandProcessingArgs.ActionType.Xml;
 			tsmiXml.Text = "Xml";
 			tsmiXml.ToolTipText = "Execute SQL and show results as XML";
 			// 
@@ -85,7 +85,7 @@ namespace PluginDTE.DbmlGenerator
 			// 
 			tsmiTemplate.Name = "tsmiTemplate";
 			tsmiTemplate.Size = new System.Drawing.Size(152, 22);
-			tsmiTemplate.Tag = PluginDTE.DbmlGenerator.DbCommandProcessingArgs.ActionType.Template;
+			tsmiTemplate.Tag = DbmlGenerator.DbCommandProcessingArgs.ActionType.Template;
 			tsmiTemplate.Text = "Template";
 			tsmiTemplate.ToolTipText = "Exec SQL and format data to template";
 			// 
@@ -192,7 +192,7 @@ namespace PluginDTE.DbmlGenerator
             tsmiXml,
             tsmiTemplate});
 			this.tsbnCommand.Enabled = false;
-			this.tsbnCommand.Image = global::PluginDTE.DbmlGenerator.Properties.Resources.Exec;
+			this.tsbnCommand.Image = global::Plugin.DbmlGenerator.Properties.Resources.Exec;
 			this.tsbnCommand.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbnCommand.Name = "tsbnCommand";
 			this.tsbnCommand.Size = new System.Drawing.Size(32, 22);

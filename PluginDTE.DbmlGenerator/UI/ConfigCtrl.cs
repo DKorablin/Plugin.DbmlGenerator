@@ -1,19 +1,18 @@
 using System;
-using System.Data;
-using System.Drawing;
-using System.Data.Common;
-using System.Windows.Forms;
-using SAL.Flatbed;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Diagnostics;
+using System.Drawing;
+using System.Windows.Forms;
 
-namespace PluginDTE.DbmlGenerator
+namespace Plugin.DbmlGenerator
 {
 	public partial class ConfigCtrl : UserControl
 	{
-		protected Plugin Plugin { get; }
+		protected PluginWindows Plugin { get; }
 
-		public ConfigCtrl(Plugin plugin)
+		public ConfigCtrl(PluginWindows plugin)
 		{
 			this.Plugin = plugin ?? throw new ArgumentNullException(nameof(plugin));
 
@@ -121,8 +120,10 @@ namespace PluginDTE.DbmlGenerator
 				this.cmsConnections_ItemClicked(sender, new ToolStripItemClickedEventArgs(tsmiEdit));
 				break;
 			case Keys.C | Keys.Control:
-				ToolStripMenuItem item = new ToolStripMenuItem();
-				item.Tag = colValue.Index;
+				ToolStripMenuItem item = new ToolStripMenuItem()
+				{
+					Tag = colValue.Index,
+				};
 				this.tsmiCopy_DropDownItemClicked(this, new ToolStripItemClickedEventArgs(item));
 				break;
 			}

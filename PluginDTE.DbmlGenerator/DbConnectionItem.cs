@@ -1,19 +1,21 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml.Serialization;
 
-namespace PluginDTE.DbmlGenerator
+namespace Plugin.DbmlGenerator
 {
 	[Serializable]
 	public class DbConnectionItem
 	{
 		public String Name;
+
 		public String ConnectionString;
+
 		public String ProviderName;
+
 		public DbConnectionItem() { }
+
 		public DbConnectionItem(String saved)
 		{
+			_ = saved ?? throw new ArgumentNullException(nameof(saved));
 			String[] parts = saved.Split(Constant.Settings.ConnectionParamsSeparator);
 			if(parts.Length == 3)
 			{
@@ -23,6 +25,7 @@ namespace PluginDTE.DbmlGenerator
 			} else
 				throw new InvalidCastException();
 		}
+
 		public override String ToString()
 		{
 			Char[] invalidChars = new Char[] { Constant.Settings.ConnectionParamsSeparator, Constant.Settings.ConnectionsSeparator, };

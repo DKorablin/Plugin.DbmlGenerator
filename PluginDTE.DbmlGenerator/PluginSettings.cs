@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing.Design;
 
-namespace PluginDTE.DbmlGenerator
+namespace Plugin.DbmlGenerator
 {
 	public class PluginSettings : INotifyPropertyChanged
 	{
@@ -25,7 +25,7 @@ namespace PluginDTE.DbmlGenerator
 		private Boolean _addComments = true;
 		private List<DbConnectionItem> _dbConnections;
 		private String _template;
-		private readonly Plugin _plugin;
+		private readonly PluginWindows _plugin;
 
 		[Browsable(false)]
 		public String Connections
@@ -76,7 +76,7 @@ namespace PluginDTE.DbmlGenerator
 			set => this.SetField(ref this._template, value, Properties.Template);
 		}
 
-		public PluginSettings(Plugin plugin)
+		public PluginSettings(PluginWindows plugin)
 			=> this._plugin = plugin ?? throw new ArgumentNullException(nameof(plugin));
 
 		public List<DbConnectionItem> GetConnections()

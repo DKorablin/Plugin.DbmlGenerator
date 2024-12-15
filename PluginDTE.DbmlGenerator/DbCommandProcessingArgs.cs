@@ -1,7 +1,7 @@
 using System;
 using AlphaOmega.Data;
 
-namespace PluginDTE.DbmlGenerator
+namespace Plugin.DbmlGenerator
 {
 	public class DbCommandProcessingArgs : EventArgs
 	{

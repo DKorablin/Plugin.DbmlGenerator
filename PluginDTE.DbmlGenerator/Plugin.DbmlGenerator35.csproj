@@ -10,8 +10,8 @@
     <ProjectGuid>{42FA2CB1-8F80-4D32-9028-D1996F61D1FF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PluginDTE.DbmlGenerator</RootNamespace>
-    <AssemblyName>PluginDTE.DbmlGenerator</AssemblyName>
+    <RootNamespace>Plugin.DbmlGenerator</RootNamespace>
+    <AssemblyName>Plugin.DbmlGenerator</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -81,7 +81,7 @@
       <DependentUpon>PanelGenerator.cs</DependentUpon>
     </Compile>
     <Compile Include="ListViewItemEx.cs" />
-    <Compile Include="Plugin.cs" />
+    <Compile Include="PluginWindows.cs" />
     <Compile Include="PluginSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

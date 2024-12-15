@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace PluginDTE.DbmlGenerator
+namespace Plugin.DbmlGenerator
 {
 	internal class ListViewItemEx : ListViewItem
 	{

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PluginDTE.DbmlGenerator
+namespace Plugin.DbmlGenerator
 {
 	internal static class Constant
 	{

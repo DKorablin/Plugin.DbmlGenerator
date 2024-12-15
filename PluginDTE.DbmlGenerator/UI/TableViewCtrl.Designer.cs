@@ -1,4 +1,4 @@
-namespace PluginDTE.DbmlGenerator
+namespace Plugin.DbmlGenerator
 {
 	partial class TableViewCtrl
 	{

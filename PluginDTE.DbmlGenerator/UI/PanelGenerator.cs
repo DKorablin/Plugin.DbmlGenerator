@@ -1,24 +1,22 @@
 using System;
-using System.Text;
-using System.Data;
-using System.Data.Common;
-using System.Windows.Forms;
-using SAL.Flatbed;
-using SAL.Windows;
-using AlphaOmega.Data;
-using PluginDTE.DbmlGenerator.Properties;
-using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Diagnostics;
+using System.IO;
+using System.Text;
+using System.Windows.Forms;
+using AlphaOmega.Data;
+using Plugin.DbmlGenerator.Properties;
+using SAL.Windows;
 
-namespace PluginDTE.DbmlGenerator
+namespace Plugin.DbmlGenerator
 {
 	public partial class PanelGenerator : UserControl
 	{
 		private delegate TResult Func<TResult>();
 
-		private Plugin Plugin { get => (Plugin)this.Window.Plugin; }
+		private PluginWindows PluginInstance { get => (PluginWindows)this.Window.Plugin; }
 
 		private IWindow Window { get => (IWindow)base.Parent; }
 
@@ -33,38 +31,40 @@ namespace PluginDTE.DbmlGenerator
 			this.Window.Caption = "DBML Generator";
 			this.Window.Shown += new EventHandler(Window_Shown);
 			this.Window.Closed += new EventHandler(Window_Closed);
-			this.Plugin.ConnectionListChanged += new EventHandler<EventArgs>(this.Plugin_ConnectionListChanged);
+			this.PluginInstance.ConnectionListChanged += new EventHandler<EventArgs>(this.Plugin_ConnectionListChanged);
 			this.Window.SetTabPicture(Resources.Icon);
 
 			base.OnCreateControl();
 
-			ctrlGridResult.Plugin = this.Plugin;
+			ctrlGridResult.Plugin = this.PluginInstance;
 		}
 
 		void Window_Shown(Object sender, EventArgs e)
 			=> this.Plugin_ConnectionListChanged(sender, e);
 
 		private void Window_Closed(Object sender, EventArgs e)
-			=> this.Plugin.ConnectionListChanged -= new EventHandler<EventArgs>(this.Plugin_ConnectionListChanged);
+			=> this.PluginInstance.ConnectionListChanged -= new EventHandler<EventArgs>(this.Plugin_ConnectionListChanged);
 
 		private void Plugin_ConnectionListChanged(Object sender, EventArgs e)
 		{
 			Object selectedItem = ddlConnection.SelectedItem;
 			ddlConnection.Items.Clear();
 
-			if(this.Plugin.Settings.Connections != null)
-				foreach(DbConnectionItem item in this.Plugin.Settings.GetConnections())
+			if(this.PluginInstance.Settings.Connections != null)
+				foreach(DbConnectionItem item in this.PluginInstance.Settings.GetConnections())
 				{
-					ListViewItemEx listItem = new ListViewItemEx(item.Name);
-					listItem.Tag = item;
+					ListViewItemEx listItem = new ListViewItemEx(item.Name)
+					{
+						Tag = item,
+					};
 					ddlConnection.Items.Add(listItem);
 				}
 
 			if(selectedItem == null)
 			{//Восстановление ранее использованных значений
-				if(this.Plugin.Settings.LastConnection < ddlConnection.Items.Count)
-					ddlConnection.SelectedIndex = this.Plugin.Settings.LastConnection;
-				txtSql.Text = this.Plugin.Settings.LastSql;
+				if(this.PluginInstance.Settings.LastConnection < ddlConnection.Items.Count)
+					ddlConnection.SelectedIndex = this.PluginInstance.Settings.LastConnection;
+				txtSql.Text = this.PluginInstance.Settings.LastSql;
 			} else
 			{
 				Int32 index = ddlConnection.FindStringExact(selectedItem.ToString());
@@ -99,7 +99,7 @@ namespace PluginDTE.DbmlGenerator
 				bgProcessing.RunWorkerAsync(args);
 			} catch(Exception exc)
 			{
-				this.Plugin.Trace.TraceData(TraceEventType.Error, 1, exc);
+				this.PluginInstance.Trace.TraceData(TraceEventType.Error, 1, exc);
 			}
 		}
 
@@ -123,7 +123,7 @@ namespace PluginDTE.DbmlGenerator
 						foreach(ColumnInfo[] columns in info.GetResultColumns(args.SqlCommand))
 						{
 							result.Append(String.Format(Constant.Dbml.Column.TableStartTemplateArgs1, index++));
-							if(this.Plugin.Settings.AddComments)
+							if(this.PluginInstance.Settings.AddComments)
 								result.AppendFormat("<!--{0}-->", args.SqlCommand);
 							result.AppendLine();
 
@@ -175,10 +175,10 @@ namespace PluginDTE.DbmlGenerator
 						for(Int32 loop = 0; loop < columns2.Count; loop++)
 							datas[loop] = row[loop];
 
-						if(String.IsNullOrEmpty(this.Plugin.Settings.Template))
+						if(String.IsNullOrEmpty(this.PluginInstance.Settings.Template))
 							result2.Append(String.Join(String.Empty, Array.ConvertAll(datas, new Converter<Object, String>(delegate (Object p) { return p == null ? null : p.ToString(); }))));
 						else
-							result2.AppendFormat(this.Plugin.Settings.Template, datas);
+							result2.AppendFormat(this.PluginInstance.Settings.Template, datas);
 					}
 					args.Result = result2.ToString();
 					break;
@@ -197,9 +197,9 @@ namespace PluginDTE.DbmlGenerator
 			{
 				DbCommandProcessingArgs args = (DbCommandProcessingArgs)e.Result;
 				this.SetResultCtrlValue(args.Type, args.Result);
-				this.Plugin.Settings.SaveLastCommands(ddlConnection.SelectedIndex, txtSql.Text);
+				this.PluginInstance.Settings.SaveLastCommands(ddlConnection.SelectedIndex, txtSql.Text);
 			} else
-				this.Plugin.Trace.TraceData(TraceEventType.Error, 1, e.Error);
+				this.PluginInstance.Trace.TraceData(TraceEventType.Error, 1, e.Error);
 		}
 
 		private void bgProcedure_DoWork(Object sender, DoWorkEventArgs e)
@@ -222,7 +222,7 @@ namespace PluginDTE.DbmlGenerator
 
 			if(e.Error != null)
 			{
-				this.Plugin.Trace.TraceData(TraceEventType.Error, 1, e.Error);
+				this.PluginInstance.Trace.TraceData(TraceEventType.Error, 1, e.Error);
 				return;
 			}
 			if(e.Cancelled)

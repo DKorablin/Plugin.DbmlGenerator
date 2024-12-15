@@ -4,22 +4,24 @@ using System.Diagnostics;
 using SAL.Flatbed;
 using SAL.Windows;
 
-namespace PluginDTE.DbmlGenerator
+namespace Plugin.DbmlGenerator
 {
-	public class Plugin : IPlugin, IPluginSettings<PluginSettings>
+	public class PluginWindows : IPlugin, IPluginSettings<PluginSettings>
 	{
 		private TraceSource _trace;
-		private IHostWindows _hostWindows;
+
 		private IMenuItem _menuPlugin;
+
 		private PluginSettings _settings;
+
 		private Dictionary<String, DockState> _documentTypes;
 
 		internal TraceSource Trace
 		{
-			get { return this._trace ?? (this._trace = Plugin.CreateTraceSource("PluginDTE.DbmlGenerator")); }
+			get { return this._trace ?? (this._trace = PluginWindows.CreateTraceSource<PluginWindows>()); }
 		}
 
-		internal IHostWindows HostWindows { get { return this._hostWindows; } }
+		internal IHostWindows HostWindows { get; }
 
 		Object IPluginSettings.Settings { get { return this.Settings; } }
 
@@ -51,8 +53,8 @@ namespace PluginDTE.DbmlGenerator
 			}
 		}
 
-		public Plugin(IHostWindows hostWindows)
-			=> this._hostWindows = hostWindows ?? throw new ArgumentNullException(nameof(hostWindows));
+		public PluginWindows(IHostWindows hostWindows)
+			=> this.HostWindows = hostWindows ?? throw new ArgumentNullException(nameof(hostWindows));
 
 		public IWindow GetPluginControl(String typeName, KeyValuePair<String,Object>[] args)
 			=> this.CreateWindow(typeName, true, args);
@@ -98,16 +100,16 @@ namespace PluginDTE.DbmlGenerator
 				? this.HostWindows.Windows.CreateWindow(this, typeName, searchForOpened, state, args)
 				: null;
 
-		private static TraceSource CreateTraceSource(String name)
+		private void MenuPlugin_Click(Object sender, EventArgs e)
+			=> _ = this.HostWindows.Windows.CreateWindow(this, typeof(PanelGenerator).ToString(), true, DockState.DockBottom, null);
+
+		private static TraceSource CreateTraceSource<T>(String name = null) where T : IPlugin
 		{
-			TraceSource result = new TraceSource(name);
+			TraceSource result = new TraceSource(typeof(T).Assembly.GetName().Name + name);
 			result.Switch.Level = SourceLevels.All;
 			result.Listeners.Remove("Default");
 			result.Listeners.AddRange(System.Diagnostics.Trace.Listeners);
 			return result;
 		}
-
-		void MenuPlugin_Click(Object sender, EventArgs e)
-			=> _ = this.HostWindows.Windows.CreateWindow(this, typeof(PanelGenerator).ToString(), true, DockState.DockBottom, null);
 	}
 }
