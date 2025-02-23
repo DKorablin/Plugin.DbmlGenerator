@@ -16,7 +16,7 @@ namespace Plugin.DbmlGenerator
 		public DbConnectionItem(String saved)
 		{
 			_ = saved ?? throw new ArgumentNullException(nameof(saved));
-			String[] parts = saved.Split(Constant.Settings.ConnectionParamsSeparator);
+			String[] parts = saved.Split(Constants.Settings.ConnectionParamsSeparator);
 			if(parts.Length == 3)
 			{
 				this.Name = parts[0];
@@ -28,13 +28,13 @@ namespace Plugin.DbmlGenerator
 
 		public override String ToString()
 		{
-			Char[] invalidChars = new Char[] { Constant.Settings.ConnectionParamsSeparator, Constant.Settings.ConnectionsSeparator, };
+			Char[] invalidChars = new Char[] { Constants.Settings.ConnectionParamsSeparator, Constants.Settings.ConnectionsSeparator, };
 			if(this.Name.IndexOfAny(invalidChars) > -1
 				|| this.ProviderName.IndexOfAny(invalidChars) > -1
 				|| this.ConnectionString.IndexOfAny(invalidChars) > -1)
 				throw new ArgumentException("Chars \\n & \\r invalid");
 
-			return String.Join(Constant.Settings.ConnectionParamsSeparator.ToString(),
+			return String.Join(Constants.Settings.ConnectionParamsSeparator.ToString(),
 				new String[] { this.Name, this.ConnectionString, this.ProviderName, });
 		}
 	}

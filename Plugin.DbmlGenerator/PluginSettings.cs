@@ -84,14 +84,14 @@ namespace Plugin.DbmlGenerator
 			if(this._dbConnections == null)
 				this._dbConnections = this.Connections == null
 					? new List<DbConnectionItem>()
-					: new List<DbConnectionItem>(Array.ConvertAll<String, DbConnectionItem>(this.Connections.Split(new Char[] { Constant.Settings.ConnectionsSeparator, }, StringSplitOptions.RemoveEmptyEntries), delegate (String item) { return new DbConnectionItem(item); }));
+					: new List<DbConnectionItem>(Array.ConvertAll<String, DbConnectionItem>(this.Connections.Split(new Char[] { Constants.Settings.ConnectionsSeparator, }, StringSplitOptions.RemoveEmptyEntries), delegate (String item) { return new DbConnectionItem(item); }));
 
 			return this._dbConnections;
 		}
 
 		private void SaveConnections(List<DbConnectionItem> connections)
 		{
-			this.Connections = String.Join(Constant.Settings.ConnectionsSeparator.ToString(), Array.ConvertAll<DbConnectionItem, String>(connections.ToArray(), delegate (DbConnectionItem item) { return item.ToString(); }));
+			this.Connections = String.Join(Constants.Settings.ConnectionsSeparator.ToString(), Array.ConvertAll<DbConnectionItem, String>(connections.ToArray(), delegate (DbConnectionItem item) { return item.ToString(); }));
 			this._plugin.HostWindows.Plugins.Settings(this._plugin).SaveAssemblyParameters();
 			this._dbConnections = connections;
 			this._plugin.OnConnectionListChanged();//HINT: Тут нельзя использвать INotifyPropertyChanged, ибо _dbConnections ставится после проперти

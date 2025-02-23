@@ -122,7 +122,7 @@ namespace Plugin.DbmlGenerator
 						Int32 index = 0;
 						foreach(ColumnInfo[] columns in info.GetResultColumns(args.SqlCommand))
 						{
-							result.Append(String.Format(Constant.Dbml.Column.TableStartTemplateArgs1, index++));
+							result.Append(String.Format(Constants.Dbml.Column.TableStartTemplateArgs1, index++));
 							if(this.PluginInstance.Settings.AddComments)
 								result.AppendFormat("<!--{0}-->", args.SqlCommand);
 							result.AppendLine();
@@ -137,14 +137,14 @@ namespace Plugin.DbmlGenerator
 									? $"Column{loop}"
 									: column.Name;
 
-								result.AppendLine(String.Format(Constant.Dbml.Column.RowTemplateArgs4,
+								result.AppendLine(String.Format(Constants.Dbml.Column.RowTemplateArgs4,
 									columnName, column.Type.FullName, dataTypeName, column.AllowDBNull.ToString().ToLowerInvariant()));
 							}
-							result.AppendLine(Constant.Dbml.Column.TableEndTemplate);
+							result.AppendLine(Constants.Dbml.Column.TableEndTemplate);
 						}
 					}
 					if(args.Procedure != null)
-						result.AppendLine(Constant.Dbml.Parameters.FunctionEnd);
+						result.AppendLine(Constants.Dbml.Parameters.FunctionEnd);
 					args.Result = result.ToString().TrimEnd('\r', '\n', '\t', ' ');
 					break;
 				case DbCommandProcessingArgs.ActionType.Grid:
@@ -267,7 +267,7 @@ namespace Plugin.DbmlGenerator
 				using(DatabaseInfo info = new DatabaseInfo(item.ProviderName, item.ConnectionString))
 					result = FormatProcedureParameters(proc, info);
 
-				result.Append(Constant.Dbml.Parameters.FunctionEnd);
+				result.Append(Constants.Dbml.Parameters.FunctionEnd);
 				this.SetResultCtrlValue(DbCommandProcessingArgs.ActionType.Dbml, result.ToString());
 			}
 		}
@@ -379,9 +379,9 @@ namespace Plugin.DbmlGenerator
 
 		private StringBuilder FormatProcedureParameters(ProcedureInfo procedure, DatabaseInfo info)
 		{
-			StringBuilder result = new StringBuilder(String.Format(Constant.Dbml.Parameters.FunctionStartArg1, procedure.ToString()));
+			StringBuilder result = new StringBuilder(String.Format(Constants.Dbml.Parameters.FunctionStartArg1, procedure.ToString()));
 			foreach(ProcedureParameterInfo parameter in info.GetProcedureParameters(procedure.Schema, procedure.Name))
-				result.AppendFormat(Constant.Dbml.Parameters.ParameterArg4,
+				result.AppendFormat(Constants.Dbml.Parameters.ParameterArg4,
 					parameter.Name.TrimStart('@'),
 					parameter.NativeType,
 					parameter.DbType,

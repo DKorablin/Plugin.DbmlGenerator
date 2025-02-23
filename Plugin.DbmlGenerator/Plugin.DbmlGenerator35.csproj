@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
-    <!--This to lines are added to separate build process between .NET & .NET Standard-->
-    <BaseOutputPath>$(MSBuildProjectDirectory)/obj/net20/$(MSBuildProjectName)/bin</BaseOutputPath>
-    <BaseIntermediateOutputPath>$(MSBuildProjectDirectory)/obj/net20/$(MSBuildProjectName)/obj</BaseIntermediateOutputPath>
-    <Version Condition="'$(Version)' == ''">1.1.9.0</Version>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{42FA2CB1-8F80-4D32-9028-D1996F61D1FF}</ProjectGuid>
@@ -71,7 +67,7 @@
     <Compile Include="UI\ConfigCtrl.Designer.cs">
       <DependentUpon>ConfigCtrl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Constant.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="DbCommandProcessingArgs.cs" />
     <Compile Include="DbConnectionItem.cs" />
     <Compile Include="UI\PanelGenerator.cs">
@@ -123,22 +119,4 @@
     <None Include="Properties\Icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Target Name="BeforeBuild">
-    <ItemGroup>
-      <AssemblyAttributes Include="AssemblyVersion">
-        <_Parameter1>$(Version)</_Parameter1>
-      </AssemblyAttributes>
-      <AssemblyAttributes Include="AssemblyFileVersion">
-        <_Parameter1>$(Version)</_Parameter1>
-      </AssemblyAttributes>
-      <AssemblyAttributes Include="AssemblyInformationalVersion">
-        <_Parameter1>$(Version)</_Parameter1>
-      </AssemblyAttributes>
-    </ItemGroup>
-    <MakeDir Directories="$(IntermediateOutputPath)" />
-    <WriteCodeFragment Language="C#" OutputFile="$(IntermediateOutputPath)Version.cs" AssemblyAttributes="@(AssemblyAttributes)" />
-    <ItemGroup>
-      <Compile Include="$(IntermediateOutputPath)Version.cs" />
-    </ItemGroup>
-  </Target>
 </Project>

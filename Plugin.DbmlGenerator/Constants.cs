@@ -2,7 +2,7 @@
 
 namespace Plugin.DbmlGenerator
 {
-	internal static class Constant
+	internal static class Constants
 	{
 		public static class Dbml
 		{
