@@ -29,21 +29,15 @@ namespace Plugin.DbmlGenerator
 		protected override void OnCreateControl()
 		{
 			this.Window.Caption = "DBML Generator";
-			this.Window.Shown += new EventHandler(Window_Shown);
-			this.Window.Closed += new EventHandler(Window_Closed);
-			this.PluginInstance.ConnectionListChanged += new EventHandler<EventArgs>(this.Plugin_ConnectionListChanged);
+			this.Window.Shown += (sender, e) => this.Plugin_ConnectionListChanged(sender, e);
+			this.Window.Closed += (sender, e) => this.PluginInstance.ConnectionListChanged -= this.Plugin_ConnectionListChanged;
+			this.PluginInstance.ConnectionListChanged += this.Plugin_ConnectionListChanged;
 			this.Window.SetTabPicture(Resources.Icon);
 
 			base.OnCreateControl();
 
 			ctrlGridResult.Plugin = this.PluginInstance;
 		}
-
-		void Window_Shown(Object sender, EventArgs e)
-			=> this.Plugin_ConnectionListChanged(sender, e);
-
-		private void Window_Closed(Object sender, EventArgs e)
-			=> this.PluginInstance.ConnectionListChanged -= new EventHandler<EventArgs>(this.Plugin_ConnectionListChanged);
 
 		private void Plugin_ConnectionListChanged(Object sender, EventArgs e)
 		{
@@ -61,7 +55,7 @@ namespace Plugin.DbmlGenerator
 				}
 
 			if(selectedItem == null)
-			{//Восстановление ранее использованных значений
+			{//Restoring previously used values
 				if(this.PluginInstance.Settings.LastConnection < ddlConnection.Items.Count)
 					ddlConnection.SelectedIndex = this.PluginInstance.Settings.LastConnection;
 				txtSql.Text = this.PluginInstance.Settings.LastSql;

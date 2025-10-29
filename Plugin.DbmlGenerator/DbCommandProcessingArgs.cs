@@ -8,13 +8,13 @@ namespace Plugin.DbmlGenerator
 		public enum ActionType
 		{
 			None = 0,
-			/// <summary>Получить DBML</summary>
+			/// <summary>Get DBML</summary>
 			Dbml = 1,
-			/// <summary>Получить таблицу</summary>
+			/// <summary>Get Table</summary>
 			Grid = 2,
-			/// <summary>Получить XML</summary>
+			/// <summary>Get XML</summary>
 			Xml = 3,
-			/// <summary>Отформатировать по шаблону</summary>
+			/// <summary>Format with Template</summary>
 			Template = 4,
 		}
 

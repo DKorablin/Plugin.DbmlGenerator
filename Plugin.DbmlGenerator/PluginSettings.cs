@@ -51,7 +51,7 @@ namespace Plugin.DbmlGenerator
 		[Category("XML")]
 		[DefaultValue(false)]
 		[DisplayName("Save with XSD")]
-		[Description("Сохранить датасет с XSD")]
+		[Description("Save dataset with XSD")]
 		public Boolean SaveWithXsd
 		{
 			get => this._saveWithXsd;
@@ -84,17 +84,17 @@ namespace Plugin.DbmlGenerator
 			if(this._dbConnections == null)
 				this._dbConnections = this.Connections == null
 					? new List<DbConnectionItem>()
-					: new List<DbConnectionItem>(Array.ConvertAll<String, DbConnectionItem>(this.Connections.Split(new Char[] { Constants.Settings.ConnectionsSeparator, }, StringSplitOptions.RemoveEmptyEntries), delegate (String item) { return new DbConnectionItem(item); }));
+					: new List<DbConnectionItem>(Array.ConvertAll<String, DbConnectionItem>(this.Connections.Split(new Char[] { Constants.Settings.ConnectionsSeparator, }, StringSplitOptions.RemoveEmptyEntries), item => new DbConnectionItem(item)));
 
 			return this._dbConnections;
 		}
 
 		private void SaveConnections(List<DbConnectionItem> connections)
 		{
-			this.Connections = String.Join(Constants.Settings.ConnectionsSeparator.ToString(), Array.ConvertAll<DbConnectionItem, String>(connections.ToArray(), delegate (DbConnectionItem item) { return item.ToString(); }));
+			this.Connections = String.Join(Constants.Settings.ConnectionsSeparator.ToString(), Array.ConvertAll<DbConnectionItem, String>(connections.ToArray(), item => item.ToString()));
 			this._plugin.HostWindows.Plugins.Settings(this._plugin).SaveAssemblyParameters();
 			this._dbConnections = connections;
-			this._plugin.OnConnectionListChanged();//HINT: Тут нельзя использвать INotifyPropertyChanged, ибо _dbConnections ставится после проперти
+			this._plugin.OnConnectionListChanged();//HINT: You can't use INotifyPropertyChanged here because _dbConnections is placed after the property.
 		}
 
 		public void SaveLastCommands(Int32 lastConnection, String lastSql)
@@ -129,8 +129,8 @@ namespace Plugin.DbmlGenerator
 			return item;
 		}
 
-		/// <summary>Удаление строки подключения по наименование</summary>
-		/// <param name="name">Наименование строки подключения к источнику данных</param>
+		/// <summary>Deleting a connection string by name</summary>
+		/// <param name="name">Name of the connection string to the data source</param>
 		/// <exception cref="ArgumentNullException">Item not found</exception>
 		public void RemoveConnection(String name)
 		{
@@ -138,16 +138,16 @@ namespace Plugin.DbmlGenerator
 				throw new ArgumentNullException(nameof(name));
 
 			List<DbConnectionItem> items = this.GetConnections();
-			DbConnectionItem item = items.Find(delegate (DbConnectionItem search) { return search.Name == name; })
+			DbConnectionItem item = items.Find(search => search.Name == name)
 				?? throw new ArgumentNullException($"Connection {name} not found");
 
 			items.Remove(item);
 			this.SaveConnections(items);
 		}
 
-		/// <summary>Переименовать наименование строки подключения к источнику данных</summary>
-		/// <param name="oldName">Старое наименование</param>
-		/// <param name="newName">Новое наименование</param>
+		/// <summary>Rename the data source connection string name</summary>
+		/// <param name="oldName">Old name</param>
+		/// <param name="newName">New name</param>
 		public void RenameConnection(String oldName, String newName)
 		{
 			if(String.IsNullOrEmpty(oldName))
@@ -156,17 +156,17 @@ namespace Plugin.DbmlGenerator
 				throw new ArgumentNullException(nameof(newName));
 
 			List<DbConnectionItem> items = this.GetConnections();
-			DbConnectionItem item = items.Find(delegate (DbConnectionItem search) { return search.Name == oldName; })
+			DbConnectionItem item = items.Find(search => search.Name == oldName)
 				?? throw new ArgumentNullException($"Connection {oldName} not found");
 
 			item.Name = this.GetUniqueName(newName, 0);
 			this.SaveConnections(items);
 		}
 
-		/// <summary>Получить уникальное наименование строки подключения к источнику данных</summary>
-		/// <param name="name">Наименование, которое должно быть уникальным</param>
-		/// <param name="index">Индекс рекурсии</param>
-		/// <returns>Уникальное наименование источника данных</returns>
+		/// <summary>Get a unique name for the data source connection string</summary>
+		/// <param name="name">Name, which must be unique</param>
+		/// <param name="index">Recursion index</param>
+		/// <returns>Unique name of the data source</returns>
 		private String GetUniqueName(String name, UInt32 index)
 		{
 			String indexName = index > 0

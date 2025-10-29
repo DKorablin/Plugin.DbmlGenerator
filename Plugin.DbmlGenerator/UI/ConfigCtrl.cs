@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
 using System.Drawing;
+using System.Text;
 using System.Windows.Forms;
 
 namespace Plugin.DbmlGenerator
@@ -22,7 +23,7 @@ namespace Plugin.DbmlGenerator
 				ToolStripItem item = bnAdd.DropDownItems.Add(row["Name"].ToString());
 				item.ToolTipText = row["Description"].ToString();
 				item.Tag = row["InvariantName"].ToString();
-				item.Click += new EventHandler(Provider_Click);
+				item.Click += new EventHandler(this.Provider_Click);
 			}
 
 			if(this.Plugin.Settings.Connections != null)
@@ -94,7 +95,7 @@ namespace Plugin.DbmlGenerator
 		private void bnRemove_Click(Object sender, EventArgs e)
 		{
 			if(lvConnections.SelectedItems.Count > 0 &&
-				MessageBox.Show("Are you shure you want to remove selected item(s)?", "Connections", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+				MessageBox.Show("Are you sure you want to remove selected item(s)?", "Connections", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
 			{
 				while(lvConnections.SelectedItems.Count > 0)
 				{
@@ -149,7 +150,7 @@ namespace Plugin.DbmlGenerator
 
 		private void cmsConnections_ItemClicked(Object sender, ToolStripItemClickedEventArgs e)
 		{
-			if(lvConnections.SelectedItems.Count > 0)//Используется из Shotcut'ов
+			if(lvConnections.SelectedItems.Count > 0)//Used from Shortcuts
 			{
 				ListViewItem item = lvConnections.SelectedItems[0];
 				if(e.ClickedItem == tsmiCopy)
@@ -164,13 +165,14 @@ namespace Plugin.DbmlGenerator
 
 		private void tsmiCopy_DropDownItemClicked(Object sender, ToolStripItemClickedEventArgs e)
 		{
-			if(lvConnections.SelectedItems.Count > 0)//Используется из Shotcut'ов
+			if(lvConnections.SelectedItems.Count > 0)//Used from Shortcuts
 			{
 				Int32 columnIndex = (Int32)e.ClickedItem.Tag;
-				String text = String.Empty;
+				List<String> text = new List<String>();
 				foreach(ListViewItem item in lvConnections.SelectedItems)
-					text += item.SubItems[columnIndex].Text + Environment.NewLine;
-				Clipboard.SetText(text.TrimEnd(Environment.NewLine.ToCharArray()));
+					text.Add(item.SubItems[columnIndex].Text);
+
+				Clipboard.SetText(String.Join(Environment.NewLine, text.ToArray()));
 			}
 		}
 

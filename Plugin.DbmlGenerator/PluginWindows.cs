@@ -18,12 +18,12 @@ namespace Plugin.DbmlGenerator
 
 		internal TraceSource Trace
 		{
-			get { return this._trace ?? (this._trace = PluginWindows.CreateTraceSource<PluginWindows>()); }
+			get => this._trace ?? (this._trace = PluginWindows.CreateTraceSource<PluginWindows>());
 		}
 
 		internal IHostWindows HostWindows { get; }
 
-		Object IPluginSettings.Settings { get { return this.Settings; } }
+		Object IPluginSettings.Settings { get => this.Settings; }
 
 		public PluginSettings Settings
 		{
@@ -56,7 +56,7 @@ namespace Plugin.DbmlGenerator
 		public PluginWindows(IHostWindows hostWindows)
 			=> this.HostWindows = hostWindows ?? throw new ArgumentNullException(nameof(hostWindows));
 
-		public IWindow GetPluginControl(String typeName, KeyValuePair<String,Object>[] args)
+		public IWindow GetPluginControl(String typeName, KeyValuePair<String, Object>[] args)
 			=> this.CreateWindow(typeName, true, args);
 
 		public ConfigCtrl GetPluginOptionsControl()
@@ -95,7 +95,7 @@ namespace Plugin.DbmlGenerator
 		internal void OnConnectionListChanged()
 			=> this.ConnectionListChanged?.Invoke(this, EventArgs.Empty);
 
-		private IWindow CreateWindow(String typeName, Boolean searchForOpened, params KeyValuePair<String,Object>[] args)
+		private IWindow CreateWindow(String typeName, Boolean searchForOpened, params KeyValuePair<String, Object>[] args)
 			=> this.DocumentTypes.TryGetValue(typeName, out DockState state)
 				? this.HostWindows.Windows.CreateWindow(this, typeName, searchForOpened, state, args)
 				: null;
