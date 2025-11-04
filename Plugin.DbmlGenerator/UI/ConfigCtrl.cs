@@ -4,7 +4,6 @@ using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Plugin.DbmlGenerator.UI
@@ -18,6 +17,14 @@ namespace Plugin.DbmlGenerator.UI
 			this.Plugin = plugin ?? throw new ArgumentNullException(nameof(plugin));
 
 			this.InitializeComponent();
+
+			if(DbProviderFactories.GetFactoryClasses().Rows.Count == 0)
+			{
+				// In .NET Core/.NET 5+, providers need to be manually registered
+				// Register common providers that are available
+				this.RegisterDbProviders();
+			}
+			
 			foreach(DataRow row in DbProviderFactories.GetFactoryClasses().Rows)
 			{
 				ToolStripItem item = bnAdd.DropDownItems.Add(row["Name"].ToString());
@@ -51,6 +58,42 @@ namespace Plugin.DbmlGenerator.UI
 				this.ArrangeListView();
 			}
 		}
+
+		private void RegisterDbProviders()
+		{
+			// Register Microsoft.Data.SqlClient if available
+			this.TryRegisterProvider("Microsoft.Data.SqlClient", "Microsoft.Data.SqlClient.SqlClientFactory, Microsoft.Data.SqlClient", "Microsoft SQL Server (Microsoft.Data.SqlClient)");
+			
+			// Register System.Data.SqlClient if available
+			this.TryRegisterProvider("System.Data.SqlClient", "System.Data.SqlClient.SqlClientFactory, System.Data.SqlClient", "Microsoft SQL Server (System.Data.SqlClient)");
+			
+			// Register other common providers if available
+			this.TryRegisterProvider("System.Data.SQLite", "System.Data.SQLite.SQLiteFactory, System.Data.SQLite", "SQLite Database");
+			this.TryRegisterProvider("MySql.Data.MySqlClient", "MySql.Data.MySqlClient.MySqlClientFactory, MySql.Data", "MySQL Database");
+			this.TryRegisterProvider("Npgsql", "Npgsql.NpgsqlFactory, Npgsql", "PostgreSQL Database");
+			this.TryRegisterProvider("Oracle.ManagedDataAccess.Client", "Oracle.ManagedDataAccess.Client.OracleClientFactory, Oracle.ManagedDataAccess", "Oracle Database");
+		}
+
+		private void TryRegisterProvider(String invariantName, String factoryTypeAssemblyQualifiedName, String description)
+		{
+			try
+			{
+				// Try to load the type to see if the provider is available
+				Type factoryType = Type.GetType(factoryTypeAssemblyQualifiedName, false);
+				if(factoryType != null)
+				{
+#if NET5_0_OR_GREATER
+					// Register the provider
+					DbProviderFactories.RegisterFactory(invariantName, factoryType);
+#endif
+				}
+			}
+			catch
+			{
+				// Provider not available, skip it
+			}
+		}
+
 		private void Provider_Click(Object sender, EventArgs e)
 		{
 			if(!String.IsNullOrEmpty(txtConnection.Text))
