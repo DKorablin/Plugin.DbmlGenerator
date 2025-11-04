@@ -1,4 +1,4 @@
-namespace Plugin.DbmlGenerator
+namespace Plugin.DbmlGenerator.UI
 {
 	partial class ConfigCtrl
 	{

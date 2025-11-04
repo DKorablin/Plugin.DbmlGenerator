@@ -7,7 +7,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Plugin.DbmlGenerator
+namespace Plugin.DbmlGenerator.UI
 {
 	public partial class ConfigCtrl : UserControl
 	{
