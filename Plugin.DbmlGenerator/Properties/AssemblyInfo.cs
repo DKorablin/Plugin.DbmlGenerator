@@ -5,4 +5,3 @@ using System.Runtime.InteropServices;
 [assembly: System.CLSCompliant(true)]
 
 [assembly: AssemblyDescription("LINQ to SQL (dbml) generator plugin from Microsoft SQL Server stored procedures")]
-[assembly: AssemblyCopyright("Copyright © Danila Korablin 2010-2025")]

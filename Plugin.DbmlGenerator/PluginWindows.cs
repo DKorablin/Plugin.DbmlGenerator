@@ -9,18 +9,13 @@ namespace Plugin.DbmlGenerator
 {
 	public class PluginWindows : IPlugin, IPluginSettings<PluginSettings>
 	{
-		private TraceSource _trace;
-
 		private IMenuItem _menuPlugin;
 
 		private PluginSettings _settings;
 
 		private Dictionary<String, DockState> _documentTypes;
 
-		internal TraceSource Trace
-		{
-			get => this._trace ?? (this._trace = PluginWindows.CreateTraceSource<PluginWindows>());
-		}
+		internal ITraceSource Trace { get; }
 
 		internal IHostWindows HostWindows { get; }
 
@@ -54,8 +49,11 @@ namespace Plugin.DbmlGenerator
 			}
 		}
 
-		public PluginWindows(IHostWindows hostWindows)
-			=> this.HostWindows = hostWindows ?? throw new ArgumentNullException(nameof(hostWindows));
+		public PluginWindows(IHostWindows hostWindows, ITraceSource trace)
+		{
+			this.HostWindows = hostWindows ?? throw new ArgumentNullException(nameof(hostWindows));
+			this.Trace = trace ?? throw new ArgumentNullException(nameof(trace));
+		}
 
 		public IWindow GetPluginControl(String typeName, KeyValuePair<String, Object>[] args)
 			=> this.CreateWindow(typeName, true, args);
@@ -103,14 +101,5 @@ namespace Plugin.DbmlGenerator
 
 		private void MenuPlugin_Click(Object sender, EventArgs e)
 			=> _ = this.HostWindows.Windows.CreateWindow(this, typeof(PanelGenerator).ToString(), true, DockState.DockBottom, null);
-
-		private static TraceSource CreateTraceSource<T>(String name = null) where T : IPlugin
-		{
-			TraceSource result = new TraceSource(typeof(T).Assembly.GetName().Name + name);
-			result.Switch.Level = SourceLevels.All;
-			result.Listeners.Remove("Default");
-			result.Listeners.AddRange(System.Diagnostics.Trace.Listeners);
-			return result;
-		}
 	}
 }
