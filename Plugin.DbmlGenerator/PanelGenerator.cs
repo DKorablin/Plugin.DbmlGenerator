@@ -16,9 +16,9 @@ namespace Plugin.DbmlGenerator
 	{
 		private delegate TResult Func<TResult>();
 
-		private PluginWindows PluginInstance { get => (PluginWindows)this.Window.Plugin; }
+		private PluginWindows PluginInstance => (PluginWindows)this.Window.Plugin.Instance;
 
-		private IWindow Window { get => (IWindow)base.Parent; }
+		private IWindow Window => (IWindow)base.Parent;
 
 		public PanelGenerator()
 		{
@@ -29,7 +29,7 @@ namespace Plugin.DbmlGenerator
 		protected override void OnCreateControl()
 		{
 			this.Window.Caption = "DBML Generator";
-			this.Window.Shown += (sender, e) => this.Plugin_ConnectionListChanged(sender, e);
+			this.Window.Shown += this.Plugin_ConnectionListChanged;
 			this.Window.Closed += (sender, e) => this.PluginInstance.ConnectionListChanged -= this.Plugin_ConnectionListChanged;
 			this.PluginInstance.ConnectionListChanged += this.Plugin_ConnectionListChanged;
 			this.Window.SetTabPicture(Resources.Icon);

@@ -1,6 +1,5 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Plugin.DbmlGenerator.UI;
 using SAL.Flatbed;
 using SAL.Windows;

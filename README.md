@@ -1,7 +1,7 @@
 ﻿# DBML Generator Plugin
 [![Auto build](https://github.com/DKorablin/Plugin.DbmlGenerator/actions/workflows/release.yml/badge.svg)](https://github.com/DKorablin/Plugin.DbmlGenerator/releases/latest)
 
-A [SAL (Software Abstraction Layer)](https://github.com/DKorablin/SAL.Windows) plugin that generates **LINQ to SQL (`.dbml`)** mapping files from Microsoft SQL Server stored procedures and arbitrary SQL queries.
+A [SAL](https://github.com/DKorablin/SAL.Windows) plugin that generates **LINQ to SQL (`.dbml`)** mapping files from Microsoft SQL Server stored procedures and arbitrary SQL queries.
 
 ## Features
 
@@ -18,7 +18,7 @@ A [SAL (Software Abstraction Layer)](https://github.com/DKorablin/SAL.Windows) p
 
 | Component | Version |
 |-----------|---------|
-| .NET Framework | 3.5+ |
+| .NET Framework | 4.8 |
 | .NET | 8.0 (Windows) |
 | SAL.Windows | see `Plugin.DbmlGenerator.csproj` |
 | ADO.NET provider | Any provider registered via `DbProviderFactories` (e.g. `System.Data.SqlClient`) |
