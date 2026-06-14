@@ -4,7 +4,7 @@ using System.Data;
 using System.IO;
 using System.Windows.Forms;
 
-namespace Plugin.DbmlGenerator
+namespace Plugin.DbmlGenerator.UI
 {
 	internal partial class TableViewCtrl : UserControl
 	{

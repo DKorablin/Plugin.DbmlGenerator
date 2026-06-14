@@ -37,7 +37,7 @@ namespace Plugin.DbmlGenerator
 			this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
 			this.splitMain = new System.Windows.Forms.SplitContainer();
 			this.txtSql = new System.Windows.Forms.TextBox();
-			this.ctrlGridResult = new DbmlGenerator.TableViewCtrl();
+			this.ctrlGridResult = new DbmlGenerator.UI.TableViewCtrl();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.ddlConnection = new System.Windows.Forms.ToolStripComboBox();
 			this.tsbnCommand = new System.Windows.Forms.ToolStripSplitButton();
@@ -258,7 +258,7 @@ namespace Plugin.DbmlGenerator
 		private System.Windows.Forms.ToolStripComboBox ddlConnection;
 		private System.Windows.Forms.ToolStripSplitButton tsbnCommand;
 		private System.ComponentModel.BackgroundWorker bgProcessing;
-		private TableViewCtrl ctrlGridResult;
+		private DbmlGenerator.UI.TableViewCtrl ctrlGridResult;
 		private System.Windows.Forms.ToolStripComboBox ddlProcedure;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.ComponentModel.BackgroundWorker bgProcedure;
